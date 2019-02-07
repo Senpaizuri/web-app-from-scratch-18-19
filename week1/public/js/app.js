@@ -16,7 +16,7 @@ var
                 handleData.user(this.responseText)
             }
             }
-            xhttp.open("GET", "public/helpers/getData.php?u=" + userInput.value + "&m=" + work.getMode(), true)
+            xhttp.open("GET", "https://osu.ppy.sh/api/k=b3e262fc4097ea390621f9b0dfc49a054b1bd08d&u=" + userInput.value  + "&m=" + work.getMode() + "&type=string&limit=10")
             xhttp.send()
         },
         beatmap:function(){
@@ -28,7 +28,7 @@ var
                 handleData.beatmap(this.responseText)
             }
             }
-            xhttp.open("GET", "public/helpers/getMaps.php?u=" + userInput.value + "&m=" + work.getMode(), true)
+            xhttp.open("GET", "helpers/getMaps.php?u=" + userInput.value + "&m=" + work.getMode(), true)
             xhttp.send()
         },
         metadata:function(beatmaps){
@@ -40,7 +40,7 @@ var
                 handleData.meta(this.responseText)
             }
             }
-            xhttp.open("GET", "public/helpers/getMeta.php?b=" + beatmaps + "&m=" + work.getMode(), true)
+            xhttp.open("GET", "helpers/getMeta.php?b=" + beatmaps + "&m=" + work.getMode(), true)
             xhttp.send()
         }
         },
