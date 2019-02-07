@@ -158,7 +158,6 @@ var
                     newLi.addEventListener('click',function(){
                     var
                         n = this.getAttribute('data-listN')
-                    app.enhance(m[n][0],b[n])
                     if (this.classList.contains('active')) {
                         this.classList.remove('active')
                     }else{
@@ -166,7 +165,8 @@ var
                         for (var i = 0; i < active.length; i++) {
                             active[i].classList.remove('active')
                         }
-                        this.classList.toggle('active')
+                        this.classList.add('active')
+                        app.enhance(m[n][0],b[n])
                     }
                 })
                     playCont.appendChild(newLi)
