@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
-
 *, *:before, *:after {
     border: none;
     margin: 0;
@@ -7,7 +5,7 @@
     list-style: none;
     text-decoration: none;
     box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Josefin sans', sans-serif;
     color: inherit;
     font-style: normal;
     position: relative;
@@ -15,32 +13,498 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+:root{
+  --baseGray: #424242;
+  --baseWhite: #fafafa;
+  --baseRed: #d62839;
+  --baseBlack : #3f2e56;
+  --baseWhite : #fafafa;
+}
 body{
-    background: #f1f1f1;
-    padding: 2rem;
+  background-color: var(--baseWhite);
+  color: var(--baseGray);
+  min-height: 100vh;
+  padding-bottom: 3rem;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
-
-body h1{
-    text-align: center;
-    margin: 1rem auto;
+body footer{
+  background-color: var(--baseBlack);
+  padding: 1rem;
+  color: var(--baseWhite);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.33);
 }
-
-ol{
-    display: flex;
-    max-width: 60rem;
+body footer span{
+  margin: auto;
+  display: block;
+  text-align: center;
+}
+header{
+  min-height: 400px;
+  height: 34vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: var(--baseBlack);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.33);
+}
+header > h1{
+  z-index: 1;
+  text-align: center;
+  margin: 2rem 1rem;
+  margin-bottom: .25rem;
+  font-weight: lighter;
+  color: var(--baseWhite)
+}
+header div{
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+header canvas{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  filter: blur(2px);
+}
+header input{
+  color: var(--baseGray);
+  margin: auto .25rem;
+  font-size: 1.5rem;
+  box-shadow: 0 0 5px rgba(0,0,0,.1);
+  display: block;
+  padding: .25rem .5rem;
+  max-width: 200px;
+  text-align: center;
+}
+.modeSelector{
+  flex-basis: 100%;
+  margin: .5rem;
+}
+.modeSelector h1{
+  flex-basis: 100%;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: lighter;
+  margin: 1rem auto;
+  margin-bottom: .25rem;
+  color: var(--baseWhite);
+}
+.modeSelector input{
+  display: none;
+}
+.modeSelector input + label{
+  height: 2.5rem;
+  width: 2.5rem;
+  margin: .25rem;
+  background-size: cover;
+  opacity: .5;
+  transition: .3s ease all;
+}
+label[for="standard"]{
+  background-image: url('../assets/mode-osu.png');
+}
+label[for="taiko"]{
+  background-image: url('../assets/mode-taiko.png');
+}
+label[for="catch"]{
+  background-image: url('../assets/mode-fruits.png');
+}
+label[for="mania"]{
+  background-image: url('../assets/mode-mania.png');
+}
+.modeSelector input:checked + label{
+  color: var(--baseWhite);
+  opacity: 1;
+  animation: bouncelr 1s;
+}
+header button{
+  margin: auto .25rem;
+  font-size: 1.5rem;
+  box-shadow: 0 0 5px rgba(0,0,0,.1);
+  display: block;
+  background-color: var(--baseBlack);
+  color: var(--baseWhite);
+  border: 1px solid var(--baseWhite);
+  padding: .25rem .5rem;
+  text-align: center;
+  display: block;
+}
+main{
+  padding: 1rem;
+  color: var(--baseGray);
+  height: 100%;
+  min-height: 66vh;
+  background-image: url('../assets/page-light.png');
+}
+main:after{
+  transition: .3s ease all;
+}
+main.working:after{
+  height: 100%;
+  width: 100%;
+  content: " ";
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,.5);
+}
+#working{
+  display: none;
+}
+.working #working{
+  display: block;
+  position: absolute;
+  text-align: center;
+  top: 5rem;
+  transform: translateY(-50%);
+  color: var(--baseWhite);
+  width: 100%;
+  z-index: 999;
+}
+.working #working h1{
+  display: inline-block;
+  margin-left: -1.5rem;
+}
+.working #working .ball{
+  transition: .3s all ease;
+  height: .5rem;
+  width: .5rem;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: var(--baseWhite);
+  animation: bounce 1s infinite;
+}
+@keyframes bouncelr {
+  from,
+  20%,
+  53%,
+  80%,
+  to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    -webkit-transform: translate3d(0, 0, 0) rotate(0deg);
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  40%,
+  43% {
+    -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    -webkit-transform: translate3d(0, -10px, 0) rotate(15deg);
+    transform: translate3d(0, -10px, 0) rotate(15deg);
+  }
+  70% {
+    -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    -webkit-transform: translate3d(0, -7px, 0) rotate(-15deg);
+    transform: translate3d(0, -7px, 0) rotate(-15deg);
+  }
+  90% {
+    -webkit-transform: translate3d(0, -4px, 0) rotate(0deg);
+    transform: translate3d(0, -4px, 0) rotate(0deg);
+  }
+}
+.working #working .ball:nth-child(3){
+  animation-delay: .1s;
+}
+.working #working .ball:nth-child(4){
+  animation-delay: .2s;
+}
+.working #working h1.failed ~ .ball{
+  opacity: 0
+}
+@keyframes bounce {
+  from,
+  20%,
+  53%,
+  80%,
+  to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  40%,
+  43% {
+    -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    -webkit-transform: translate3d(0, -15px, 0);
+    transform: translate3d(0, -15px, 0);
+  }
+  70% {
+    -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    -webkit-transform: translate3d(0, -7px, 0);
+    transform: translate3d(0, -7px, 0);
+  }
+  90% {
+    -webkit-transform: translate3d(0, -4px, 0);
+    transform: translate3d(0, -4px, 0);
+  }
+}
+.userContainer{
+  transition: .3s opacity ease;
+  margin: 1rem auto;
+  margin-top: 0;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1560px;
+  padding: 1rem 1.5rem;
+  background-color: var(--baseWhite);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.userContainer > div{
+  flex-basis: 50%;
+  min-width: 200px;
+  min-height: 80px;
+  margin: 1rem auto;
+}
+.userContainer img{
+  display: inline-block;
+  width: 5rem;
+  height: 5rem;
+}
+.userContainer img ~ h1,
+.userContainer img ~ h2{
+  display: block;
+  position: absolute;
+}
+.userContainer img ~ h1{
+  top: 0;
+  font-size: 3rem;
+  font-weight: normal;
+  left: calc(80px + .75rem)
+}
+.userContainer h1 + h2{
+  bottom: 0;
+  font-weight: lighter;
+  font-size: 2rem;
+  left: calc(80px + .75rem);
+  width: 100%;
+}
+.userContainer div:nth-child(2) img{
+  width: 2rem;
+  height: 1.5rem;
+  position: absolute;
+  display: block;
+  top: 0;
+  right: 0;
+}
+.userContainer div:nth-child(2) h2{
+  position: absolute;
+}
+.userContainer div:nth-child(2) h2:first-child{
+  top: 0;
+  right: 2.5rem;
+  text-align: right;
+  font-weight: lighter;
+}
+.userContainer div:nth-child(2) h2:last-child{
+  bottom: 0;
+  right: 0;
+  font-size: 1.75rem;
+  line-height: 1em;
+  font-weight: lighter;
+}
+.userContainer div:nth-child(2) h2:last-child span{
+  font-size: 4rem;
+}
+.userContainer .bar{
+  min-height: 1rem;
+  flex-basis: 100%;
+  margin: 0;
+  margin-top: -.75rem;
+  background-color: var(--baseGray);
+  overflow: hidden;
+}
+.userContainer .progress{
+  transition: .5s width ease;
+  min-height: 1rem;
+  background-color: var(--baseRed);
+  width: 0%;
+  position: absolute;
+}
+.playContainer{
+  max-width: 1560px;
+  margin: 1rem auto;
+  margin-top: 0;
+}
+.playContainer li{
+  transition: .3s ease all;
+  max-width: 40rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  padding: 1.5rem 2rem;
+  background-color: #ebc;
+  background-position: center;
+  background-size: 100%;
+  animation: fade-in .3s ease forwards;
+  opacity: 0;
+  cursor: pointer;
+  left: 0;
+  bottom: 0;
+}
+.playContainer li.active{
+  left: 2rem;
+  background-size: 120%;
+}
+.playContainer li > *:not(a){
+  pointer-events: none;
+}
+@keyframes fade-in {
+  0%{
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.playContainer li a{
+  opacity: 0;
+  transition: .3s all ease;
+  position: absolute;
+  left: .1rem;
+  transform: rotate(-90deg) translateY(-.9rem);
+  height: 2.75rem;
+  text-align: center;
+  max-width: 4rem;
+  text-align: center;
+}
+.playContainer li.active a{
+  left: -2rem;
+  opacity: 1;
+}
+.playContainer .gradient{
+  overflow: hidden;
+  transition: .3s background ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 37%,rgba(255,255,255,0.05) 97%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  /* animation: gradientAni 10s ease infinite; */
+  animation-delay: inherit;
+  background-size: 200%;
+  background-position:50% 50%
+}
+@keyframes gradientAni {
+   0%{background-position:75% 50%}
+   50%{background-position:50% 50%}
+   100%{background-position:75% 50%}
+}
+.playContainer h1,
+.playContainer h2{
+  z-index: 999;
+}
+.playContainer h1{
+  font-size: 1.5rem;
+  font-weight: normal;
+  max-width: 66%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.playContainer h2{
+  font-size: .75rem;
+  font-weight: lighter;
+}
+.playContainer span{
+  transition: .3s all ease;
+  position: absolute;
+  color: var(--baseWhite);
+  font-size: 4rem;
+  right: 2rem;
+  bottom: -1.5rem;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.33);
+}
+.playContainer li.active div span.pp{
+  bottom: .25rem;
+}
+.playContainer div span{
+  left: .75rem;
+  bottom: -1.75rem;
+  color: var(--baseGray);
+  opacity: .25;
+}
+.playContainer div span.pp{
+  color: var(--baseWhite);
+  opacity: 1;
+  left: auto;
+  position: absolute;
+  display: block;
+}
+.playContainer div span.pp span{
+  top: -.25rem;
+  color: inherit;
+  opacity: inherit;
+  font-size: 1rem;
+  left: auto;
+  right: -1.25rem;
+}
+.playContainer li.active div span.pp span{
+  top: 0;
+}
+.hidden{
+  opacity: 0;
+  pointer-events: none;
+}
+@media only screen and (max-width: 450px) {
+  .working #working{
+    left: 50%;
+    width: 100vw;
+    margin-left: -50%;
+  }
+  .working #working h1{
     margin: auto;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-ol li{
-    height: 10rem;
-    width: 10rem;
-    margin: .5rem;
-    text-align: center;
-    background: #fff;
-}
-
-ol li h2{
-    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    max-width: 15rem;
+    display: block;
+  }
+  .playContainer li.active{
+    left: 0;
+    bottom: 2rem;
+  }
+  .playContainer li a{
+    transform: none;
+    left: 0;
+    top: 6rem;
+    max-width: 100%;
+  }
+  .playContainer li.active a{
+   left: .25rem;
+  }
+  .userContainer > div{
+    flex-basis: 100%;
+    min-height: 100%;
+  }
+  .userContainer img ~ h1{
+    font-size: 3rem;
+  }
+  .userContainer img ~ h2{
+    font-size: 1.75rem;
+  }
+  .userContainer img{
+    margin: auto;
+    display: block;
+  }
+  .userContainer img ~ h1,
+  .userContainer img ~ h2{
+    left: auto;
+    text-align: left;
+    position: relative;
+  }
+  .userContainer div:nth-child(2) h2:first-child{
+    position: absolute;
+  }
+  .userContainer div:nth-child(2) h2{
+    position: relative;
+  }
 }

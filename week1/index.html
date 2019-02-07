@@ -8,10 +8,56 @@
     <link rel="stylesheet" type="text/css" media="screen" href="/public/css/styles.css" />
 </head>
 <body>
-    <h1>1st Gen</h1>
-    <main id="app">
-
+    <header id="particles-js">
+        <h1>Osu Stat viewer</h1>
+        <div class="">
+            <input id="userInput" type="text" name="" value="xenica" placeholder="username">
+            <a href="#main">
+            <button type="button" name="button">go</button>
+            </a>
+            <div class="modeSelector">
+            <h1>Modes</h1>
+            <input type="radio" id="standard" name="gameMode" value="0" checked>
+            <label for="standard"></label>
+            <input type="radio" id="taiko" name="gameMode" value="1">
+            <label for="taiko"></label>
+            <input type="radio" id="catch" name="gameMode" value="2">
+            <label for="catch"></label>
+            <input type="radio" id="mania" name="gameMode" value="3">
+            <label for="mania"></label>
+            </div>
+        </div>
+    </header>
+    <main id="main" class="">
+        <div id="working">
+            <h1>Putting button pushers to work</h1>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+        </div>
+        <div class="userContainer hideables">
+            <div>
+            <img src="" alt="" width="260" height="260">
+            <h1 class="username">Username</h1>
+            <h2 class="globalRank">#Global Rank</h2>
+            </div>
+            <div>
+            <h2 class="countryRank">#ranking</h2>
+            <img class="country" src="" alt="country" placeholder="?">
+            <h2>Lv.<span class="level">0</span></h2>
+            </div>
+            <div class="bar">
+            <div class="progress"></div>
+            </div>
+        </div>
+        <ol class="playContainer hideables"></ol>
+        <section class="active">
+            <h1 class="mapname"></h1>
+        </section>
     </main>
+    <footer>
+        <span>This project is in no shape or form affiliated with <a href="https://osu.ppy.sh">osu!</a></span>
+    </footer>
     <script src="/public/js/main.js"></script>
 </body>
 </html>
