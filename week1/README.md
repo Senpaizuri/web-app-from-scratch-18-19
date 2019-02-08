@@ -12,7 +12,7 @@ Doel: Data ophalen uit een API en renderen in een overzichtspagina.
 
 [Link](https://github.com/ppy/osu-api/wiki) to the api github
 
-This app uses the [OSU!]() api to fetch game data.
+This app uses the [OSU!](https://osu.ppy.sh/) api to fetch game data.
 The beatmap and metadata from the the user is being fetched and displayed with this app.
 
 ## Api requests
