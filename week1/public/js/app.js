@@ -188,7 +188,7 @@ var
                 console.log('--Finished Building--')
             }
         },
-        "enhance":function(m,b){
+        enhance:function(m,b){
             // TODO - use metadata and beatmapdata to display userdata against the globalplayer data
             console.log(m,b)
         }

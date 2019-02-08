@@ -347,6 +347,7 @@ main.working:after{
   cursor: pointer;
   left: 0;
   bottom: 0;
+  margin: auto;
 }
 .playContainer li.active{
   left: 2rem;
