@@ -49,9 +49,36 @@ The applet uses a few object literal functions to make the code abit more readab
 ```
 
 ## API restrictions
-
+ 
 > Use the API for good. Don't overdo it. If in doubt, ask before (ab)using :). this section may expand as necessary.
 >Current rate limit is set at an insanely high 1200 requests per minute, with burst capability of up to 200 beyond that. If you require more, you probably fall into the above category of abuse. If you are doing more than 60 requests a minute, you should probably give peppy a yell.
 
-source(https://github.com/ppy/osu-api/wiki#terms-of-use)
+source(https://github.com/ppy/osu-api/wiki#terms-of-use
 
+## Design patterns JS
+
+the patterns that I try to use are
+
+- camelCasing
+- objectLiterals
+- no ";"
+- doubleTabs
+- single vars/const
+- no spaces for parameters
+- spaces used for if/function/while/for 
+
+```javascript
+var
+    newLi = document.createElement('li'),
+    newGra= document.createElement('div')
+    app = {
+        init:function (data){
+            // do something
+        }
+    }
+
+```
+
+## Todo list
+
+I still need to add an overview where you can view the user data per beatmap against the top 50 scores on the selected beatmap.

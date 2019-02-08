@@ -51,6 +51,9 @@ var
                 xhttp.open("GET", "https://osu.ppy.sh/api/get_beatmaps?k=37cd30f0847caf99845aca3169418efec400101a&b=" + map + "&m=" + work.getMode(), true)
                 xhttp.send()
             });
+        },
+        scoreData:function(beatId){
+
         }
         },
         handleData = {
@@ -175,7 +178,7 @@ var
                             active[i].classList.remove('active')
                         }
                         this.classList.add('active')
-                        app.enhance(m[n][0],b[n])
+                        // app.enhance(m[n][0],b[n])
                     }
                 })
                     playCont.appendChild(newLi)
@@ -190,7 +193,21 @@ var
         },
         enhance:function(m,b){
             // TODO - use metadata and beatmapdata to display userdata against the globalplayer data
-            console.log(m,b)
+            console.log(m.beatmap_id)
+
+            getData.scoreData(m.beatmap_id)
+
+            var score = new Promise(function(res,rej){
+                var xhttp = new XMLHttpRequest()
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        return this.responseText
+                    }
+                }
+                xhttp.open("GET", "https://osu.ppy.sh/api/get_beatmaps?k=37cd30f0847caf99845aca3169418efec400101a&b=" + map + "&m=" + work.getMode(), true)
+                xhttp.send()
+            })
+
         }
     }
 // Restart the script for a new user/query
