@@ -12,11 +12,11 @@ var
             console.log('Getting userdata')
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                handleData.user(this.responseText)
+                if (this.readyState == 4 && this.status == 200) {
+                    handleData.user(this.responseText)
+                }
             }
-            }
-            xhttp.open("GET", "public/helpers/getData.php?u=" + userInput.value  + "&m=" + work.getMode() + "&type=string&limit=10")
+            xhttp.open("GET", "https://osu.ppy.sh/api/get_user?k=37cd30f0847caf99845aca3169418efec400101a&u="+ userInput.value + "&m=" + work.getMode())
             xhttp.send()
         },
         beatmap:function(){
@@ -24,24 +24,33 @@ var
             console.log('Getting beatmap data')
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                handleData.beatmap(this.responseText)
+                if (this.readyState == 4 && this.status == 200) {
+                    handleData.beatmap(this.responseText)
+                }
             }
-            }
-            xhttp.open("GET", "public/helpers/getMaps.php?u=" + userInput.value + "&m=" + work.getMode(), true)
+            xhttp.open("GET", "https://osu.ppy.sh/api/get_user_best?k=37cd30f0847caf99845aca3169418efec400101a&u=" + userInput.value + "&m=" + work.getMode() + "&limit=15", true)
             xhttp.send()
         },
         metadata:function(beatmaps){
             //Fuction to get the metadata of played beatmaps from current user
             console.log('Getting metadata')
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                handleData.meta(this.responseText)
-            }
-            }
-            xhttp.open("GET", "public/helpers/getMeta.php?b=" + beatmaps + "&m=" + work.getMode(), true)
-            xhttp.send()
+
+            var mapdata = []
+
+            //Loop through each beatmap and fetch its metadata
+            beatmaps.forEach(map => {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        mapdata.push(JSON.parse(this.responseText))
+                        if(mapdata.length == beatmaps.length){
+                            app.create(userData,beatmapData,mapdata)
+                        }
+                    }
+                }
+                xhttp.open("GET", "https://osu.ppy.sh/api/get_beatmaps?k=37cd30f0847caf99845aca3169418efec400101a&b=" + map + "&m=" + work.getMode(), true)
+                xhttp.send()
+            });
         }
         },
         handleData = {
