@@ -1,25 +1,26 @@
 (()=>{
     var
         app = {
-            init:()=>{
+            init:()=>{ // Initialze the app
                 var
                     userName = document.getElementById("userInput").value
+                // apiConfig is set in key.js
                 getData.user(apiConfig,userName)
                 getData.beatmap(apiConfig,userName,15)
             }
         },
         getData = {
-            user:async (config,userName)=>{
+            user:async (config,userName)=>{ // Checks the localStorage for data
                 console.log("Getting user data: " + userName)
 
                 var userData = window.localStorage.getItem("osu-user-" + userName)
-                if(!userData){
+                if(!userData){ // If the data doens't excist it starts the await for the async funct
                     console.log("new user: " + userName)
                     userData = await getData.req(config.baseUrl + config.endpoint.user + config.key + "&u=" + userName)
                     window.localStorage.setItem("osu-user-" + userName, JSON.stringify(userData))
                     console.log("new userData for " + userName + " recieved")
                     render.user(userData,userName)
-                } else{
+                } else{ // If the data does excist the data is immediatly parsed and send to the render function
                     console.log("excisting user: " + userName )
                     render.user(JSON.parse(userData))
                 }
@@ -39,11 +40,11 @@
                     getData.meta(config,JSON.parse(beatData))
                 }
             },
-            meta:async (config,data)=>{
+            meta:(config,data)=>{
                 var
-                    beatIds = data.map(mapId => mapId.beatmap_id)
+                    beatIds = data.map(mapId => mapId.beatmap_id) // remap all beatmaps to array for metaData call
 
-                beatIds.forEach((beatId,i) => (async () => {
+                beatIds.forEach((beatId,i) => (async () => { // Gets meta data for each beatmap played
                     console.log("Getting metadata for " + beatId)
 
                     var metaData = window.localStorage.getItem('osu-beatmap-' + beatId)
@@ -60,7 +61,7 @@
                 })())
             },
             req:(url,beatmaps)=>{
-                return new Promise(resolve => {
+                return new Promise(resolve => { // Promise for the fetching of all the data
                     fetch(url)
                     .then(res => res.json())
                     .then(response => resolve(response))
@@ -69,7 +70,7 @@
             }
         },
         render = {
-            user:(data)=>{
+            user:(data)=>{ // renders user data
                 data = data[0]
                 console.log("Building userdata for", data.username)
 
@@ -94,7 +95,7 @@
 
                 console.log("-- Finished building userData for", data.username)
             },
-            beatList:(beatmap,metaData,clearN)=>{
+            beatList:(beatmap,metaData,clearN)=>{ // render each beatmap
                 const
                     beatmapsCont = document.querySelector(".playContainer")
                 var
@@ -107,7 +108,7 @@
                     newTtl= document.createElement("h1"),
                     newSub= document.createElement("h2")
 
-                if(clearN == nItems){
+                if(clearN == nItems){ // checks the number of items in the list, clears the list if the maximum is present
                     while(beatmapsCont.firstChild){
                         beatmapsCont.removeChild(beatmapsCont.firstChild)
                     }
@@ -141,7 +142,7 @@
             }
         },
         helper = {
-            getRank:(rank)=>{
+            getRank:(rank)=>{ // Remap rank values to legible values
                 switch (rank) {
                     case "X":
                         return "SS"
@@ -179,8 +180,3 @@
     })
 
 })()
-
-// Dev purposes
-const storageClear = ()=>{
-    window.localStorage.clear()
-}
