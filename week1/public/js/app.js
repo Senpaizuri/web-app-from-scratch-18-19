@@ -102,8 +102,8 @@
                     nItems = beatmapsCont.querySelectorAll('li').length,
                     newLi = document.createElement("li"),
                     newGra= document.createElement("div"),
-                        newPp = document.createElement("span"),
-                        newRan= document.createElement("span"),
+                    newPp = document.createElement("span"),
+                    newRan= document.createElement("span"),
                     newTtl= document.createElement("h1"),
                     newSub= document.createElement("h2")
 
@@ -120,9 +120,9 @@
                 })
 
                 newGra.classList.add("gradient")
-                    newRan.textContent = helper.getRank(beatmap.rank)
-                    newPp.classList.add("pp")
-                    newPp.innerHTML = Math.trunc(beatmap.pp) + "<span>pp</span>"
+                newRan.textContent = helper.getRank(beatmap.rank)
+                newPp.classList.add("pp")
+                newPp.innerHTML = Math.trunc(beatmap.pp) + "<span>pp</span>"
 
                 newTtl.textContent = metaData.title
                 newSub.textContent = "["+ metaData.version +"] - Pass Percentage: " + Math.trunc((metaData.passcount/metaData.playcount)*100) + "%"
