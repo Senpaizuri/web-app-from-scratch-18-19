@@ -43,13 +43,13 @@
                     window.localStorage.setItem("osu-user-" + userName + "-beatmaps", JSON.stringify(beatData))
                     console.log("new beatmaps for " + userName + " recieved")
                     getData.meta(config,beatData)
-                }else{ 
+                }else{
                     console.log("excisting beat data")
                     getData.meta(config,JSON.parse(beatData))
                 }
             },
             meta:async (config,data)=>{
-                var 
+                var
                     beatIds = data.map(mapId => mapId.beatmap_id)
 
                 beatIds.forEach((beatId,i) => (async () => {
@@ -115,7 +115,7 @@
                         newRan= document.createElement("span"),
                     newTtl= document.createElement("h1"),
                     newSub= document.createElement("h2")
-                
+
                 if(clearN == nItems){
                     while(beatmapsCont.firstChild){
                         beatmapsCont.removeChild(beatmapsCont.firstChild)
@@ -133,7 +133,7 @@
                     newPp.innerHTML = Math.trunc(beatmap.pp) + "<span>pp</span>"
 
                 newTtl.textContent = metaData.title
-                newSub.textContent = "["+ metaData.version +"] - MaxCombo: " + beatmap.maxCombo
+                newSub.textContent = "["+ metaData.version +"] - Pass Percentage: " + Math.trunc((metaData.passcount/metaData.playcount)*100) + "%"
 
                 newLi.appendChild(newGra)
                 newLi.appendChild(newTtl)
@@ -141,7 +141,11 @@
                 newGra.appendChild(newPp)
                 newGra.appendChild(newRan)
                 beatmapsCont.appendChild(newLi)
-                    
+
+                if(clearN-1 == nItems){
+                    console.log("-- Finised building beatmaps")
+                }
+
             }
         },
         helper = {
@@ -161,9 +165,9 @@
                 console.log(target)
             }
         }
-    
+
     app.init()
-    
+
     document.querySelector("button").addEventListener("click",()=>{
         app.init()
     })

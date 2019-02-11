@@ -253,7 +253,7 @@ main.working:after{
   margin-top: 0;
   display: flex;
   flex-wrap: wrap;
-  max-width: 1560px;
+  max-width: 40rem;
   padding: 1rem 1.5rem;
   background-color: var(--baseWhite);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
