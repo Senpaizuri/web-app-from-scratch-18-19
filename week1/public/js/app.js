@@ -114,6 +114,7 @@
                 }
 
                 newLi.setAttribute("style","background-image:url(https://assets.ppy.sh/beatmaps/" + metaData.beatmapset_id + "/covers/cover.jpg);animation-delay:"+(nItems/15)+"s")
+                newLi.id = beatmap.beatmap_id
                 newLi.addEventListener('click',()=>{
                     helper.setActive(newLi)
                 })
@@ -153,7 +154,21 @@
                     }
             },
             setActive:(target)=>{
-                console.log(target)
+                var
+                    active = document.querySelector('.active')
+                if (active == target) {
+                    target.classList.remove('active')
+                } else if(active == null){
+                    target.classList.add('active')
+                    helper.logData(target.id)
+                } else{
+                    active.classList.remove('active')
+                    target.classList.add('active')
+                    helper.logData(target.id)
+                }
+            },
+            logData:(beatId)=>{
+                console.log(JSON.parse(window.localStorage.getItem('osu-beatmap-' + beatId)))
             }
         }
 
