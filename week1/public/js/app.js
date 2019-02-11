@@ -2,17 +2,8 @@
     var
         app = {
             init:()=>{
-                var apiConfig = {
-                    key:"?k=37cd30f0847caf99845aca3169418efec400101a",
-                    baseUrl:"https://osu.ppy.sh/api",
-                    endpoint:{
-                        user:"/get_user",
-                        beatmap:"/get_user_best",
-                        meta:"/get_beatmaps",
-                        score:"/get_score"
-                    }
-                },
-                userName = document.getElementById("userInput").value
+                var
+                    userName = document.getElementById("userInput").value
                 getData.user(apiConfig,userName)
                 getData.beatmap(apiConfig,userName,15)
             }
