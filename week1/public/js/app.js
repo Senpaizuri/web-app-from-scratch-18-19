@@ -1,5 +1,6 @@
 // apiConfig is set in key.js
 (()=>{
+    'use strict'
     var
         app = {
             init:()=>{ // Initialze the app
@@ -40,13 +41,13 @@
                         }
                     },
                     'osu-user-*':(user)=>{
-                        var 
+                        var
                             userName = user.replace("/",""),
                             userHash = "osu-user-",
                             excists = helper.checkExcisting(userHash,userName)
 
                         if(excists){
-                            var 
+                            var
                                 userData = JSON.parse(window.localStorage.getItem(userHash + userName))
 
                             console.log("Excisting user: " + userName)
@@ -66,13 +67,13 @@
                     '*':()=>{
                         console.log('Nothing to see here')
                     }
-                }) 
+                })
             },
             reboot:()=>{
                 var
                     userInput = document.getElementById("userInput"),
                     userName = userInput.value
-                
+
                     window.location.hash = "osu-user-" + userName
             }
         },
