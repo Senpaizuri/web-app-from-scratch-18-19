@@ -3,10 +3,46 @@
         app = {
             init:()=>{ // Initialze the app
                 var
-                    userName = document.getElementById("userInput").value
+                    userInput = document.getElementById("userInput"),
+                    userName = userInput.value
+                
                 // apiConfig is set in key.js
-                getData.user(apiConfig,userName)
-                getData.beatmap(apiConfig,userName,15)
+                // Init the router
+                routie({
+                    'osu-user-*':()=>{
+                        var 
+                            userName = window.location.hash.split("-")[2],
+                            userHash = "osu-user-",
+                            excists = helper.checkExcisting(userHash,userName)
+
+                        if(excists){
+                            console.log("Excisting user")
+                            var userData = JSON.parse(window.localStorage.getItem(userHash + userName))
+                            userInput.value = userName
+                            render.user(userData,userName)
+                            getData.beatmap(apiConfig,userName,15)
+                        } else{
+                            console.log("New user")
+                            userInput.value = userName
+                            getData.user(apiConfig,userName)
+                            getData.beatmap(apiConfig,userName,15)
+                        }
+
+                    },
+                    'osu-beatmap-*':()=>{
+                        console.log(window.location.hash.split('-')[2])
+                    },
+                    '*':()=>{
+                        console.log('Nothing to see here')
+                    }
+                }) 
+            },
+            reboot:()=>{
+                var
+                    userInput = document.getElementById("userInput"),
+                    userName = userInput.value
+                
+                    window.location.hash = "osu-user-" + userName
             }
         },
         getData = {
@@ -168,6 +204,15 @@
                     helper.logData(target.id)
                 }
             },
+            checkExcisting:(mainString,id,subString = "")=>{
+                var dataPoint = window.localStorage.getItem(mainString + id + subString)
+
+                if(dataPoint){
+                    return true
+                } else{
+                    return false
+                }
+            },
             logData:(beatId)=>{
                 console.log(JSON.parse(window.localStorage.getItem('osu-beatmap-' + beatId)))
             }
@@ -176,7 +221,7 @@
     app.init()
 
     document.querySelector("button").addEventListener("click",()=>{
-        app.init()
+        app.reboot()
     })
 
 })()
