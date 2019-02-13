@@ -180,7 +180,7 @@
                 }
 
                 newLi.setAttribute("style","background-image:url(https://assets.ppy.sh/beatmaps/" + metaData.beatmapset_id + "/covers/cover.jpg);animation-delay:"+(nItems/15)+"s")
-                newLi.id = beatmap.beatmap_id
+                newLi.setAttribute('data-preview',"https://b.ppy.sh/preview/"+ metaData.beatmapset_id +".mp3")
                 newLi.addEventListener('click',()=>{
                     helper.setActive(newLi)
                 })
@@ -204,7 +204,6 @@
                     console.log("-- Finised building beatmaps")
                     beatmapsCont.classList.add('build')
                 }
-
             }
         },
         helper = {
@@ -222,29 +221,35 @@
             },
             setActive:(target)=>{
                 var
-                    active = document.querySelector('.active')
+                    active = document.querySelector(".active")
                 if (active == target) {
-                    target.classList.remove('active')
+                    target.classList.remove("active")
+                    helper.previewSound(target.getAttribute("data-preview"),false)
                 } else if(active == null){
-                    target.classList.add('active')
-                    helper.logData(target.id)
+                    target.classList.add("active")
+                    helper.previewSound(target.getAttribute("data-preview"))
                 } else{
-                    active.classList.remove('active')
-                    target.classList.add('active')
-                    helper.logData(target.id)
+                    active.classList.remove("active")
+                    target.classList.add("active")
+                    helper.previewSound(target.getAttribute("data-preview"))
                 }
             },
             checkExcisting:(mainString,id,subString = "")=>{
                 var dataPoint = window.localStorage.getItem(mainString + id + subString)
-
                 if(dataPoint){
                     return true
                 } else{
                     return false
                 }
             },
-            logData:(beatId)=>{
-                console.log(JSON.parse(window.localStorage.getItem('osu-beatmap-' + beatId)))
+            previewSound:(url,state = true)=>{
+                const audio = document.querySelector("audio")
+                if (state) {
+                    audio.setAttribute("src",url)
+                    audio.play()
+                }else{
+                    audio.pause()
+                }
             }
         }
     app.init()
