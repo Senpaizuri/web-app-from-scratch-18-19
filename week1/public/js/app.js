@@ -1,36 +1,67 @@
+// apiConfig is set in key.js
 (()=>{
     var
         app = {
             init:()=>{ // Initialze the app
                 var
-                    userInput = document.getElementById("userInput"),
-                    userName = userInput.value
-                
-                // apiConfig is set in key.js
+                    userInput = document.getElementById("userInput")
+
+                document.querySelector("button").addEventListener("click",()=>{
+                    app.reboot()
+                })
+
                 // Init the router
                 routie({
-                    'osu-user-*':()=>{
+                    'osu-user-*/beatmap-*':(user,beatId)=>{
+                        console.log(user,beatId)
+
+                        var
+                            userName = user,
+                            userHash = "osu-user-",
+                            beatHash = "osu-beatmap-",
+                            userExcists = helper.checkExcisting(userHash,userName),
+                            beatExcists = helper.checkExcisting(beatHash,beatId)
+
+                        if(userExcists && beatExcists){
+                            var
+                                userData = JSON.parse(window.localStorage.getItem(userHash + userName)),
+                                beatData = JSON.parse(window.localStorage.getItem(beatHash + beatId))
+
+                            userInput.value = userName
+
+                            render.user(userData,userName)
+                            render.beatList(beatData,userName)
+                        } else if(userExcists){
+                            console.log("user excists")
+                        } else if(beatExcists){
+                            console.log("beatmap excists")
+                        } else{
+                            window.location.hash = ""
+                        }
+                    },
+                    'osu-user-*':(user)=>{
                         var 
-                            userName = window.location.hash.split("-")[2],
+                            userName = user.replace("/",""),
                             userHash = "osu-user-",
                             excists = helper.checkExcisting(userHash,userName)
 
                         if(excists){
-                            console.log("Excisting user")
-                            var userData = JSON.parse(window.localStorage.getItem(userHash + userName))
+                            var 
+                                userData = JSON.parse(window.localStorage.getItem(userHash + userName))
+
+                            console.log("Excisting user: " + userName)
+
                             userInput.value = userName
                             render.user(userData,userName)
                             getData.beatmap(apiConfig,userName,15)
+
                         } else{
-                            console.log("New user")
+                            console.log("New user:" + userName)
+
                             userInput.value = userName
                             getData.user(apiConfig,userName)
                             getData.beatmap(apiConfig,userName,15)
                         }
-
-                    },
-                    'osu-beatmap-*':()=>{
-                        console.log(window.location.hash.split('-')[2])
                     },
                     '*':()=>{
                         console.log('Nothing to see here')
@@ -51,7 +82,6 @@
 
                 var userData = window.localStorage.getItem("osu-user-" + userName)
                 if(!userData){ // If the data doens't excist it starts the await for the async funct
-                    console.log("new user: " + userName)
                     userData = await getData.req(config.baseUrl + config.endpoint.user + config.key + "&u=" + userName)
                     window.localStorage.setItem("osu-user-" + userName, JSON.stringify(userData))
                     console.log("new userData for " + userName + " recieved")
@@ -66,7 +96,6 @@
 
                 var beatData = window.localStorage.getItem("osu-user-" + userName + "-beatmaps")
                 if(!beatData){
-                    console.log("new beatmaps")
                     beatData = await getData.req(config.baseUrl + config.endpoint.beatmap + config.key + "&u=" + userName + "&limit=" + limit)
                     window.localStorage.setItem("osu-user-" + userName + "-beatmaps", JSON.stringify(beatData))
                     console.log("new beatmaps for " + userName + " recieved")
@@ -81,22 +110,20 @@
                     beatIds = data.map(mapId => mapId.beatmap_id) // remap all beatmaps to array for metaData call
 
                 beatIds.forEach((beatId,i) => (async () => { // Gets meta data for each beatmap played
-                    console.log("Getting metadata for " + beatId)
 
                     var metaData = window.localStorage.getItem('osu-beatmap-' + beatId)
                     if(!metaData){
-                        console.log("new metadata:" + beatId)
                         metaData = await getData.req(config.baseUrl + config.endpoint.meta + config.key + "&b=" + beatId)
                         window.localStorage.setItem('osu-beatmap-' + beatId, JSON.stringify(metaData))
                         console.log("new metadata for " + beatId + " recieved")
                         render.beatList(data[i],metaData,data.length)
                     }else{
                         console.log("excisting meta data")
-                        render.beatList(data[i],JSON.parse(metaData),data.length)
+                        render.beatList(data[i],JSON.parse(metaData),beatIds.length)
                     }
                 })())
             },
-            req:(url,beatmaps)=>{
+            req:(url)=>{
                 return new Promise(resolve => { // Promise for the fetching of all the data
                     fetch(url)
                     .then(res => res.json())
@@ -131,7 +158,7 @@
 
                 console.log("-- Finished building userData for", data.username)
             },
-            beatList:(beatmap,metaData,clearN)=>{ // render each beatmap
+            beatList:(beatmap,metaData,clearN = 15)=>{ // render each beatmap
                 const
                     beatmapsCont = document.querySelector(".playContainer")
                 var
@@ -144,7 +171,8 @@
                     newTtl= document.createElement("h1"),
                     newSub= document.createElement("h2")
 
-                if(clearN == nItems){ // checks the number of items in the list, clears the list if the maximum is present
+                if(beatmapsCont.classList.contains('build')){ // checks the number of items in the list, clears the list for a new build
+                    beatmapsCont.classList.remove('build')
                     while(beatmapsCont.firstChild){
                         beatmapsCont.removeChild(beatmapsCont.firstChild)
                     }
@@ -173,6 +201,7 @@
 
                 if(clearN-1 == nItems){
                     console.log("-- Finised building beatmaps")
+                    beatmapsCont.classList.add('build')
                 }
 
             }
@@ -217,11 +246,5 @@
                 console.log(JSON.parse(window.localStorage.getItem('osu-beatmap-' + beatId)))
             }
         }
-
     app.init()
-
-    document.querySelector("button").addEventListener("click",()=>{
-        app.reboot()
-    })
-
 })()
