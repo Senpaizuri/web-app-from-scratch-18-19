@@ -247,7 +247,8 @@ main.working:after{
     transform: translate3d(0, -4px, 0);
   }
 }
-.userContainer{
+.userContainer,
+.scoreContainer{
   transition: .3s opacity ease;
   margin: 1rem auto;
   margin-top: 0;
@@ -452,6 +453,20 @@ main.working:after{
 }
 .playContainer li.active div span.pp span{
   top: 0;
+}
+.scoreContainer{
+  padding: 1.5rem 2rem;
+}
+.scoreContainer h1,
+.scoreContainer h2{
+  font-size: 1.5rem;
+  font-weight: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.scoreContainer h2{
+  font-size: .75rem;
 }
 .hidden{
   opacity: 0;

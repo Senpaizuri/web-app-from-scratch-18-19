@@ -14,24 +14,30 @@
                 // Init the router
                 routie({
                     'osu-user-*/beatmap-*':(user,beatId)=>{
-                        console.log(user,beatId)
-
                         var
-                            userName = user,
+                            userName = user.toLowerCase(),
                             userHash = "osu-user-",
                             beatHash = "osu-beatmap-",
                             userExcists = helper.checkExcisting(userHash,userName),
-                            beatExcists = helper.checkExcisting(beatHash,beatId)
+                            beatExcists = helper.checkExcisting(beatHash,beatId.split("-")[1])
 
                         if(userExcists && beatExcists){
                             var
                                 userData = JSON.parse(window.localStorage.getItem(userHash + userName)),
-                                beatData = JSON.parse(window.localStorage.getItem(beatHash + beatId))
+                                beatData = JSON.parse(window.localStorage.getItem(beatHash + beatId.split("-")[1])),
+                                metaData = JSON.parse(window.localStorage.getItem(userHash + userName + "-beatmaps"))
+                            
+                            metaData.forEach(meta => {
+                                if(meta.beatmap_id == beatId.split("-")[1]){
+                                    metaData = meta
+                                }
+                            });
 
                             userInput.value = userName
 
+                            getData.score(beatId,userName)
                             render.user(userData,userName)
-                            render.beatList(beatData,userName)
+                            render.beatList(metaData,beatData,1)
                         } else if(userExcists){
                             console.log("user excists")
                         } else if(beatExcists){
@@ -42,7 +48,7 @@
                     },
                     'osu-user-*':(user)=>{
                         var
-                            userName = user.replace("/",""),
+                            userName = user.replace("/","").toLowerCase(),
                             userHash = "osu-user-",
                             excists = helper.checkExcisting(userHash,userName)
 
@@ -52,14 +58,14 @@
 
                             console.log("Excisting user: " + userName)
 
-                            userInput.value = userName
+                            userInput.value = userName.toLowerCase()
                             render.user(userData,userName)
                             getData.beatmap(apiConfig,userName,15)
 
                         } else{
                             console.log("New user:" + userName)
 
-                            userInput.value = userName
+                            userInput.value = userName.toLowerCase()
                             getData.user(apiConfig,userName)
                             getData.beatmap(apiConfig,userName,15)
                         }
@@ -72,7 +78,7 @@
             reboot:()=>{
                 var
                     userInput = document.getElementById("userInput"),
-                    userName = userInput.value
+                    userName = userInput.value.toLowerCase()
 
                     window.location.hash = "osu-user-" + userName
             }
@@ -84,9 +90,13 @@
                 var userData = window.localStorage.getItem("osu-user-" + userName)
                 if(!userData){ // If the data doens't excist it starts the await for the async funct
                     userData = await getData.req(config.baseUrl + config.endpoint.user + config.key + "&u=" + userName)
-                    window.localStorage.setItem("osu-user-" + userName, JSON.stringify(userData))
-                    console.log("new userData for " + userName + " recieved")
-                    render.user(userData,userName)
+                    if(userData.length == 0){
+                        console.log("Non Excisting user")
+                    } else{
+                        window.localStorage.setItem("osu-user-" + userName, JSON.stringify(userData))
+                        console.log("new userData for " + userName + " recieved")
+                        render.user(userData,userName)
+                    }
                 } else{ // If the data does excist the data is immediatly parsed and send to the render function
                     console.log("excisting user: " + userName )
                     render.user(JSON.parse(userData))
@@ -98,9 +108,13 @@
                 var beatData = window.localStorage.getItem("osu-user-" + userName + "-beatmaps")
                 if(!beatData){
                     beatData = await getData.req(config.baseUrl + config.endpoint.beatmap + config.key + "&u=" + userName + "&limit=" + limit)
-                    window.localStorage.setItem("osu-user-" + userName + "-beatmaps", JSON.stringify(beatData))
-                    console.log("new beatmaps for " + userName + " recieved")
-                    getData.meta(config,beatData)
+                    if(beatData.length == 0){
+                        console.log("Non Excisting user")
+                    } else{
+                        window.localStorage.setItem("osu-user-" + userName + "-beatmaps", JSON.stringify(beatData))
+                        console.log("new beatmaps for " + userName + " recieved")
+                        getData.meta(config,beatData)
+                    }
                 }else{
                     console.log("excisting beat data")
                     getData.meta(config,JSON.parse(beatData))
@@ -123,6 +137,30 @@
                         render.beatList(data[i],JSON.parse(metaData),beatIds.length)
                     }
                 })())
+            },
+            score:async (beatId,userName)=>{
+                var
+                    beatSet = beatId.split("-")[0],
+                    beatmap = beatId.split("-")[1],
+                    userData = JSON.parse(window.localStorage.getItem("osu-user-" + userName))[0],
+                    metaData = JSON.parse(window.localStorage.getItem("osu-beatmap-" + beatmap))[0],
+                    beatData = JSON.parse(window.localStorage.getItem("osu-user-" + userName +"-beatmaps")),
+                    scoreData = await false
+
+                beatData.forEach(curMap => {
+                    if(curMap.beatmap_id == beatmap){
+                        beatData = curMap
+                    }
+                })
+
+                render.score(
+                    {
+                        user: userData,
+                        meta: metaData,
+                        beat: beatData,
+                        score: scoreData
+                    }
+                )
             },
             req:(url)=>{
                 return new Promise(resolve => { // Promise for the fetching of all the data
@@ -181,6 +219,7 @@
 
                 newLi.setAttribute("style","background-image:url(https://assets.ppy.sh/beatmaps/" + metaData.beatmapset_id + "/covers/cover.jpg);animation-delay:"+(nItems/15)+"s")
                 newLi.setAttribute('data-preview',"https://b.ppy.sh/preview/"+ metaData.beatmapset_id +".mp3")
+                newLi.id = [metaData.beatmapset_id,beatmap.beatmap_id].join('-')
                 newLi.addEventListener('click',()=>{
                     helper.setActive(newLi)
                 })
@@ -204,6 +243,13 @@
                     console.log("-- Finised building beatmaps")
                     beatmapsCont.classList.add('build')
                 }
+            },
+            score:(data)=>{
+                window.location.hash = "osu-user-xenica/beatmap-" + data.meta.beatmapset_id + "-" + data.beat.beatmap_id
+                var
+                    beat = data.beat,
+                    meta = data.meta,
+                    user = data.user
             }
         },
         helper = {
@@ -224,14 +270,16 @@
                     active = document.querySelector(".active")
                 if (active == target) {
                     target.classList.remove("active")
-                    helper.previewSound(target.getAttribute("data-preview"),false)
+                    waveForm.previewSound(target.getAttribute("data-preview"),false)
                 } else if(active == null){
                     target.classList.add("active")
-                    helper.previewSound(target.getAttribute("data-preview"))
+                    // waveForm.previewSound(target.getAttribute("data-preview"))
+                    getData.score(target.id,document.querySelector("#userInput").value)
                 } else{
                     active.classList.remove("active")
                     target.classList.add("active")
-                    helper.previewSound(target.getAttribute("data-preview"))
+                    // waveForm.previewSound(target.getAttribute("data-preview"))
+                    getData.score(target.id,document.querySelector("#userInput").value)
                 }
             },
             checkExcisting:(mainString,id,subString = "")=>{
@@ -241,9 +289,12 @@
                 } else{
                     return false
                 }
-            },
+            }
+        },
+        waveForm = {
             previewSound:(url,state = true)=>{
-                const audio = document.querySelector("audio")
+                const
+                    audio = document.querySelector("audio")
                 if (state) {
                     audio.setAttribute("src",url)
                     audio.play()

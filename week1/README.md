@@ -27,24 +27,16 @@ The applet uses a few object literal functions to make the code abit more readab
 
 ```javascript
 
-// Used object literals
-    app.init()
-    app.create()
-
+// Used object literal
 // Gets data from the api
     getData.user() 
     getData.beatmap()
     getData.metadata()
-
-// Handles the data recieved from the api
-    handleData.user() 
-    handleData.beatmap()
-    handleData.meta()
-
+// Renders the data recieved from the api
+    render.user() 
+    render.beatmap()
 // Helper functions to fix api data or does minor tasks
-    work.beatmaps() 
-    work.rank()
-    work.getMode()
+    helper.getRank()
 
 ```
 
@@ -64,20 +56,25 @@ the patterns that I try to use are
 - no ";"
 - doubleTabs
 - single vars/const
+- enter after variable/const declaration
 - no spaces for parameters
-- spaces used for if/function/while/for 
 
 ```javascript
 var
     newLi = document.createElement('li'),
     newGra= document.createElement('div')
-    app = {
-        init:function (data){
+
+    getData = {
+        user:async (data)=>{
             // do something
         }
     }
 
 ```
+
+## Actor Diagram
+
+![alt text](./actor-diagram.png "Actor Diagram")
 
 ## Todo list
 
