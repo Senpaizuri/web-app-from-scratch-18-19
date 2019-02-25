@@ -11,6 +11,13 @@
                     app.reboot()
                 })
 
+                userInput.addEventListener("keypress",(e)=>{
+                    console.log(e)
+                    if(e.charCode == 0 || e.code == "Enter"){
+                        app.reboot()
+                    }
+                })
+
                 // Init the router
                 routie({
                     'osu-user-*/beatmap-*':(user,beatId)=>{
@@ -51,6 +58,8 @@
                             userName = user.replace("/","").toLowerCase(),
                             userHash = "osu-user-",
                             excists = helper.checkExcisting(userHash,userName)
+
+                        console.log(user)
 
                         if(excists){
                             var
@@ -117,6 +126,7 @@
                     }
                 }else{
                     console.log("excisting beat data")
+                    console.log(JSON.parse(beatData).length)
                     getData.meta(config,JSON.parse(beatData))
                 }
             },
@@ -131,10 +141,10 @@
                         metaData = await getData.req(config.baseUrl + config.endpoint.meta + config.key + "&b=" + beatId)
                         window.localStorage.setItem('osu-beatmap-' + beatId, JSON.stringify(metaData))
                         console.log("new metadata for " + beatId + " recieved")
-                        render.beatList(data[i],metaData,data.length)
+                        render.beatList(data[i],metaData,data.length,i)
                     }else{
                         console.log("excisting meta data")
-                        render.beatList(data[i],JSON.parse(metaData),beatIds.length)
+                        render.beatList(data[i],JSON.parse(metaData),beatIds.length,i)
                     }
                 })())
             },
@@ -197,7 +207,7 @@
 
                 console.log("-- Finished building userData for", data.username)
             },
-            beatList:(beatmap,metaData,clearN = 15)=>{ // render each beatmap
+            beatList:(beatmap,metaData,clearN = 15,i)=>{ // render each beatmap
                 const
                     beatmapsCont = document.querySelector(".playContainer")
                 var
@@ -217,7 +227,7 @@
                     }
                 }
 
-                newLi.setAttribute("style","background-image:url(https://assets.ppy.sh/beatmaps/" + metaData.beatmapset_id + "/covers/cover.jpg);animation-delay:"+(nItems/15)+"s")
+                newLi.setAttribute("style","background-image:url(https://assets.ppy.sh/beatmaps/" + metaData.beatmapset_id + "/covers/cover.jpg);animation-delay:"+(nItems/15)+"s; order:"+ i +";")
                 newLi.setAttribute('data-preview',"https://b.ppy.sh/preview/"+ metaData.beatmapset_id +".mp3")
                 newLi.id = [metaData.beatmapset_id,beatmap.beatmap_id].join('-')
                 newLi.addEventListener('click',()=>{
@@ -273,13 +283,13 @@
                     waveForm.previewSound(target.getAttribute("data-preview"),false)
                 } else if(active == null){
                     target.classList.add("active")
-                    // waveForm.previewSound(target.getAttribute("data-preview"))
-                    getData.score(target.id,document.querySelector("#userInput").value)
+                    waveForm.previewSound(target.getAttribute("data-preview"))
+                    // getData.score(target.id,document.querySelector("#userInput").value)
                 } else{
                     active.classList.remove("active")
                     target.classList.add("active")
-                    // waveForm.previewSound(target.getAttribute("data-preview"))
-                    getData.score(target.id,document.querySelector("#userInput").value)
+                    waveForm.previewSound(target.getAttribute("data-preview"))
+                    // getData.score(target.id,document.querySelector("#userInput").value)
                 }
             },
             checkExcisting:(mainString,id,subString = "")=>{
