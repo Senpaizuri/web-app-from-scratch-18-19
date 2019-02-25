@@ -126,7 +126,6 @@
                     }
                 }else{
                     console.log("excisting beat data")
-                    console.log(JSON.parse(beatData).length)
                     getData.meta(config,JSON.parse(beatData))
                 }
             },
