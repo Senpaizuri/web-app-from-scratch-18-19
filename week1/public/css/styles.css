@@ -250,6 +250,7 @@ main:after{
   bottom: 0;
   margin: auto;
   width: 100%;
+  overflow: hidden;
 }
 .playContainer li.active{
   left: 2rem;
@@ -354,6 +355,36 @@ main:after{
 }
 .playContainer li.active div span.pp span{
   top: 0;
+}
+.playContainer li span.difficulty .star{
+  opacity: 0;
+  margin: .25rem;
+  height: 1.5rem;
+  width: 1.5rem;
+  background: url('../assets/star.svg');
+  background-size: 1.5rem;
+  bottom: -1.5rem;
+  transition: .3s ease all;
+  transition-delay: .5s;
+  background-repeat: no-repeat;
+}
+.playContainer li span.difficulty{
+  font-size: 1.75rem;
+  opacity: 0;
+  transition-delay: .3s;
+  display: flex;
+  z-index: -1;
+  filter: drop-shadow(0px 0px 5px rgba(0,0,0,.33));
+  transform: scale(1.5);
+}
+.playContainer li.active span.difficulty{
+  opacity: .75;
+  bottom: 3rem;
+  right: 2rem;
+}
+.playContainer li.active span.difficulty .star{
+  transform: translateX(-1.75rem);
+  opacity: 1;
 }
 .scoreContainer{
   padding: 1.5rem 2rem;

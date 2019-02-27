@@ -216,7 +216,12 @@
                     newPp = document.createElement("span"),
                     newRan= document.createElement("span"),
                     newTtl= document.createElement("h1"),
-                    newSub= document.createElement("h2")
+                    newSub= document.createElement("h2"),
+                    newDif= document.createElement("span"),
+                    ratingCalc = Math.trunc(metaData.difficultyrating*100)/100,
+                    ratingPart = ratingCalc%Math.trunc(ratingCalc),
+                    ratingWhole = ratingCalc - ratingPart
+
 
                 if(beatmapsCont.classList.contains('build')){ // checks the number of items in the list, clears the list for a new build
                     beatmapsCont.classList.remove('build')
@@ -240,9 +245,23 @@
                 newTtl.textContent = metaData.title
                 newSub.textContent = "["+ metaData.version +"] - Pass Percentage: " + Math.trunc((metaData.passcount/metaData.playcount)*100) + "%"
 
+                for (let i = 0; i < ratingWhole; i++) {
+                    let newStar = document.createElement("div")
+                    newStar.classList.add("star")
+                    newDif.appendChild(newStar)          
+                }
+                if(ratingPart > 0){
+                    let newStar = document.createElement("div")
+                    newStar.classList.add("star")
+                    newStar.style.setProperty("width",ratingPart*1.5 + "rem")
+                    newDif.appendChild(newStar)  
+                }
+                newDif.classList.add("difficulty")
+
                 newLi.appendChild(newGra)
                 newLi.appendChild(newTtl)
                 newLi.appendChild(newSub)
+                newLi.appendChild(newDif)
                 newGra.appendChild(newPp)
                 newGra.appendChild(newRan)
                 beatmapsCont.appendChild(newLi)
