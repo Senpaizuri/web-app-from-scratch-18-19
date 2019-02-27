@@ -12,7 +12,6 @@
                 })
 
                 userInput.addEventListener("keypress",(e)=>{
-                    console.log(e)
                     if(e.charCode == 0 || e.code == "Enter"){
                         app.reboot()
                     }
