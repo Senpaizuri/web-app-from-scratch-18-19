@@ -8,22 +8,17 @@
     <link rel="stylesheet" type="text/css" media="screen" href="public/css/styles.css" />
 </head>
 <body>
-    <header id="particles-js">
+    <header>
         <h1>Osu Stat viewer</h1>
         <div class="">
             <input id="userInput" type="text" name="" value="xenica" placeholder="username">
             <button type="button" name="button">go</button>
-            <!-- <div class="modeSelector">
-                <h1>Modes</h1>
-                <input type="radio" id="standard" name="gameMode" value="0" checked>
-                <label for="standard"></label>
-                <input type="radio" id="taiko" name="gameMode" value="1">
-                <label for="taiko"></label>
-                <input type="radio" id="catch" name="gameMode" value="2">
-                <label for="catch"></label>
-                <input type="radio" id="mania" name="gameMode" value="3">
-                <label for="mania"></label>
-            </div> -->
+        </div>
+        <span class="error hidden">Non excisting user, check the username :)</span>
+        <div class="loader">
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
         </div>
     </header>
     <main id="main" class="">
@@ -45,8 +40,7 @@
         <ol class="playContainer hideables"></ol>
         <section class="scoreContainer active hidden">
             <div>
-                <h1>Bombs Away</h1>
-                <h2>Difficulty: [Sotarks' Detonation]</h2>
+                <!-- Score Display -->
             </div>
         </section>
     </main>

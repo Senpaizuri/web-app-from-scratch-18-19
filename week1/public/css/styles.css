@@ -400,6 +400,46 @@ main:after{
 .scoreContainer h2{
   font-size: .75rem;
 }
+.error{
+  text-align: center;
+  color: #f1f1f1;
+  font-size: 1.5rem;
+  padding: .5rem 1.5rem;
+}
+.loader{
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  width: 5rem;
+  justify-content: space-between;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: .3s ease all;
+}
+.loader.loading{
+  opacity: 1;
+}
+.loader .ball{
+  height: 1rem;
+  width: 1rem;
+  background: #f1f1f1;
+  border-radius: 50%;
+  animation: bounce .5s ease infinite;
+}
+.loader .ball:nth-child(2){
+  animation-delay: .1s;
+}
+.loader .ball:nth-child(3){
+  animation-delay: .2s;
+}
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(.5rem);
+  }
+}
 .hidden{
   opacity: 0;
   pointer-events: none;
