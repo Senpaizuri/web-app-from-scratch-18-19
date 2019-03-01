@@ -1,44 +1,25 @@
-# Week 1 - Hello API 🐒
+# Webapp from scatch with OSU! api
 
-Doel: Data ophalen uit een API en renderen in een overzichtspagina.
+This app uses the [OSU!](https://osu.ppy.sh/) api to fetch game data.
+With this app you can review your in-game performance.
 
-[Opdrachten](https://drive.google.com/open?id=1OVhWQNaCgSluYviTKKWcApkyPd23xow1PiExb8GYANM)
+![detailpage webapp](screenshot.png)
 
-[Slides](https://drive.google.com/open?id=1Rjl9xqXoKniQSRJPdkU1O5YwWC33SJK8KiV0a-H_xZU)
-
-# Webapp with OSU! api
+## Demo link
 
 [Link](https://senpaizuri.github.io/web-app-from-scratch-18-19/week1/) to the project
 
-[Link](https://github.com/ppy/osu-api/wiki) to the api github
-
-This app uses the [OSU!](https://osu.ppy.sh/) api to fetch game data.
-The beatmap and metadata from the the user is being fetched and displayed with this app.
+**note:** the demo doesn't work outrught since the API key is bound to my own OSU! account. Both the key and the account may be comprimised if the key is shown in public.
 
 ## Api requests
 
-This applet fetches the following data
+This app fetches the following data
 
-* User data (Username, Level, Experience, Global ranking ect.)
+* User data (Username, Level, Experience, Global ranking)
 * Beatmap data (Performance of the user by said user)
 * Metadata (Data on the played beatmaps)
 
-The applet uses a few object literal functions to make the code abit more readable and maintainable.
-
-```javascript
-
-// Used object literal
-// Gets data from the api
-    getData.user() 
-    getData.beatmap()
-    getData.metadata()
-// Renders the data recieved from the api
-    render.user() 
-    render.beatmap()
-// Helper functions to fix api data or does minor tasks
-    helper.getRank()
-
-```
+[Link](https://github.com/ppy/osu-api/wiki) to the api github
 
 ## API restrictions
  
@@ -49,23 +30,26 @@ The applet uses a few object literal functions to make the code abit more readab
 
 ## Design patterns JS
 
-the patterns that I try to use are
+the patterns that I'm using for clean coding
 
 - camelCasing
 - objectLiterals
 - no ";"
 - doubleTabs
-- single vars/const
+- single vars/const/let
 - enter after variable/const declaration
 - no spaces for parameters
+- arrow functions
+- ES6 Modules
 
 ```javascript
-var
-    newLi = document.createElement('li'),
-    newGra= document.createElement('div')
+import * as render from "../modules/render.js"
 
-    getData = {
-        user:async (data)=>{
+let
+    newLi = document.createElement('li'),
+    newGra= document.createElement('div'),
+    app = {
+        init: (e)=>{
             // do something
         }
     }
@@ -74,8 +58,43 @@ var
 
 ## Actor Diagram
 
-![alt text](./actor-diagram.png "Actor Diagram")
+![actor diagram](./actor-diagram.png "Actor Diagram")
 
-## Todo list
+## Interaction Diagram
 
-I still need to add an overview where you can view the user data per beatmap against the top 50 scores on the selected beatmap.
+![interaction diargam](./interaction-diagram.png "Actor Diagram")
+
+## Feature list
+
+### Feature requirements by this course
+
+*Week 1*
+- Creating a webapp from scratch
+- Rendering a list of data from the api 🐒
+- Loading said data asynchronous
+
+*Week 2*
+- Creating an actor and interaction diagram
+- Refactoring code to uphold better standards
+- Implement routing
+
+*Week 3*
+- Manipulate the api data
+- User feedback, Ux tweaks
+- Split code up into modules
+
+### Features that go beyond the minimum requirements
+
+- Saving data to localstorage to minimize loading times
+- Assisting many folks with questions and issues
+- A somewhat useable interface
+- Minor error handeling if the request fails
+
+## MicroLibaries used
+
+- [routie.js](http://projects.jga.me/routie/) for handeling routes
+
+## WishList
+
+- Score list, a detailed per beatmap view of the users performance vs the world
+- Expand the users data to detail more statistics
