@@ -96,5 +96,5 @@ let
 
 ## WishList
 
-[x] Score list, a detailed per beatmap view of the users performance vs the world
-[x] Expand the users data to detail more statistics
+- Score list, a detailed per beatmap view of the users performance vs the world
+- Expand the users data to detail more statistics
