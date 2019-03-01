@@ -75,13 +75,13 @@ let
 
 *Week 2*
 - Creating an actor and interaction diagram
-- Refactoring code to uphold better standards
+- Refactoring code to uphold better standards 🛠
 - Implement routing
 
 *Week 3*
 - Manipulate the api data
 - User feedback, Ux tweaks
-- Split code up into modules
+- Split code up into modules 🎁
 
 ### Features that go beyond the minimum requirements
 
@@ -96,5 +96,5 @@ let
 
 ## WishList
 
-- Score list, a detailed per beatmap view of the users performance vs the world
-- Expand the users data to detail more statistics
+[x] Score list, a detailed per beatmap view of the users performance vs the world
+[x] Expand the users data to detail more statistics
