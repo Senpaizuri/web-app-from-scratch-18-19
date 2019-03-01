@@ -58,11 +58,11 @@ let
 
 ## Actor Diagram
 
-![actor diagram](./actor-diagram.png "Actor Diagram")
+![actor diagram](./actorDiagram.png "Actor Diagram")
 
 ## Interaction Diagram
 
-![interaction diargam](./interaction-diagram.png "Actor Diagram")
+![interaction diargam](./interactionDiagram.png "Actor Diagram")
 
 ## Feature list
 
