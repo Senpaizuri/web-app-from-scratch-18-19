@@ -98,3 +98,5 @@ let
 
 - Score list, a detailed per beatmap view of the users performance vs the world
 - Expand the users data to detail more statistics
+- Writing my own Virtual Dom and Router
+- Optimize localstorage, refresh local data if it "expires"
