@@ -1,56 +1,102 @@
-# Web App From Scratch @cmda-minor-web 18-19
+# Webapp from scatch with OSU! api
 
-In dit vak gaan we een web app maken zonder frameworks of onnodige libraries, dus zoveel mogelijk met native HTML, CSS & JavaScript. Het eindproduct is een modulair opgezet prototype voor een single page web app. Data wordt opgehaald uit een externe API, waar nodig gemanipuleerd en vervolgens getoond in de Web App. Je leert hoe je structuur aanbrengt in je code en hoe je hiermee 'from scratch' een (prototype voor een) web app maakt. Met deze kennis begrijp je daarnaast beter hoe bestaande api’s, libraries en frameworks werken.
+This app uses the [OSU!](https://osu.ppy.sh/) api to fetch game data.
+With this app you can review your in-game performance.
 
-## Leerdoelen
-- _Je kan structuur aanbrengen in je code door patterns toe te passen. Je kan de keuze voor de gekozen patterns beargumenteren_
-- _Je kan data ophalen, manipuleren en dynamisch omzetten naar html elementen mbv templating._
-- _Je begrijpt hoe je middels asynchrone code met een externe API kan werken._
-- _Je begrijpt hoe je states in je applicaties kan managen en stelt de gebruiker op de hoogte van states waar nodig._
+![detailpage webapp](screenshot.png)
 
-[Rubric](https://docs.google.com/spreadsheets/d/e/2PACX-1vTjZGWGPC_RMvTMry8YW5XOM79GEIdgS7I5JlOe6OeeOUdmv7ok1s9jQhzojNE4AsyzgL-jJCbRj1LN/pubhtml?gid=0&single=true)
+## Demo link
 
-## Lesprogramma
+[Link](https://senpaizuri.github.io/web-app-from-scratch-18-19/week1/) to the project
 
-### Week 1 - Hello API 🐒
+**note:** the demo doesn't work outrught since the API key is bound to my own OSU! account. Both the key and the account may be comprimised if the key is shown in public.
 
-Doel: Data ophalen uit een API en renderen in een overzichtspagina.
+## Api requests
 
-[Opdrachten](https://drive.google.com/open?id=1OVhWQNaCgSluYviTKKWcApkyPd23xow1PiExb8GYANM)
+This app fetches the following data
 
-[Slides](https://drive.google.com/open?id=1Rjl9xqXoKniQSRJPdkU1O5YwWC33SJK8KiV0a-H_xZU)
+* User data (Username, Level, Experience, Global ranking)
+* Beatmap data (Performance of the user by said user)
+* Metadata (Data on the played beatmaps)
 
-### Week 2 - Design and Refactor 🛠
+[Link](https://github.com/ppy/osu-api/wiki) to the api github
 
-Doel: Breakdown maken van de web app. Routes en states toevoegen. Detailpagina renderen.
+## API restrictions
+ 
+> Use the API for good. Don't overdo it. If in doubt, ask before (ab)using :). this section may expand as necessary.
+>Current rate limit is set at an insanely high 1200 requests per minute, with burst capability of up to 200 beyond that. If you require more, you probably fall into the above category of abuse. If you are doing more than 60 requests a minute, you should probably give peppy a yell.
 
-[Opdrachten](https://drive.google.com/open?id=1GMDTdW3LycAYpZSFI6gk_lrKrx8-zLWrNh69aaVEH5Y)
+[source](https://github.com/ppy/osu-api/wiki#terms-of-use)
 
-[Slides](https://drive.google.com/open?id=1IqQeu1m0dQiSC_KCvrn8eencAgtYe7X6qT-gm0n9Bmc)
+## Design patterns JS
 
-### Week 3 - Wrapping up 🎁
+the patterns that I'm using for clean coding
 
-Doel: Data manipuleren. Code splitsen in modules. Reflecteren op eindresultaat.
+- camelCasing
+- objectLiterals
+- no ";"
+- doubleTabs
+- single vars/const/let
+- enter after variable/const declaration
+- no spaces for parameters
+- arrow functions
+- ES6 Modules
 
-[Opdrachten](https://drive.google.com/open?id=13pKQu72pshaEzKw9q5JHLa-aop85nMP6nDCdqioWjoQ)
+```javascript
+import * as render from "../modules/render.js"
 
-[Slides](https://drive.google.com/open?id=1BSzGYNLMgtHD4HRnK7f0DgyTv4Pg3xsQwD_eYNo7v0Y)
+let
+    newLi = document.createElement('li'),
+    newGra= document.createElement('div'),
+    app = {
+        init: (e)=>{
+            // do something
+        }
+    }
 
+```
 
-<!-- Add a link to your live demo in Github Pages 🌐-->
+## Actor Diagram
 
-<!-- ☝️ replace this description with a description of your own work -->
+![actor diagram](./actorDiagram.png "Actor Diagram")
 
-<!-- Add a nice image here at the end of the week, showing off your shiny frontend 📸 -->
+## Interaction Diagram
 
-<!-- Maybe a table of contents here? 📚 -->
+![interaction diargam](./interactionDiagram.png "Actor Diagram")
 
-<!-- How about a section that describes how to install this project? 🤓 -->
+## Feature list
 
-<!-- ...but how does one use this project? What are its features 🤔 -->
+### Feature requirements by this course
 
-<!-- What external data source is featured in your project and what are its properties 🌠 -->
+*Week 1*
+- Creating a webapp from scratch
+- Rendering a list of data from the api 🐒
+- Loading said data asynchronous
 
-<!-- Maybe a checklist of done stuff and stuff still on your wishlist? ✅ -->
+*Week 2*
+- Creating an actor and interaction diagram
+- Refactoring code to uphold better standards 🛠
+- Implement routing
 
-<!-- How about a license here? 📜 (or is it a licence?) 🤷 -->
+*Week 3*
+- Manipulate the api data
+- User feedback, Ux tweaks
+- Split code up into modules 🎁
+
+### Features that go beyond the minimum requirements
+
+- Saving data to localstorage to minimize loading times
+- Assisting many folks with questions and issues
+- A somewhat useable interface
+- Minor error handeling if the request fails
+
+## MicroLibaries used
+
+- [routie.js](http://projects.jga.me/routie/) for handeling routes
+
+## WishList
+
+- Score list, a detailed per beatmap view of the users performance vs the world
+- Expand the users data to detail more statistics
+- Writing my own Virtual Dom and Router
+- Optimize localstorage, refresh local data if it "expires"
