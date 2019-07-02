@@ -180,6 +180,7 @@ main:after{
   left: calc(80px + .75rem)
 }
 .userContainer h1 + h2{
+  white-space: nowrap;
   bottom: 0;
   font-weight: lighter;
   font-size: 2rem;
